@@ -1,0 +1,57 @@
+data:
+  address: 127.0.0.1:3306
+  database: root
+  username: root
+  password: pass
+
+nations:
+  sylvora:
+    display-name: "Sylvora"
+    display-material: LIME_STAINED_GLASS_PANE
+    color: "1FAB36"
+    lore:
+      - "&8&oIn a serene landscape of tightly-knit farming villages,"
+      - "&8&oSylvora thrives as an agrarian nation. Unhurried by"
+      - "&8&othe distractions of the outside world, its inhabitants"
+      - "&8&ohave devoted their leisure to harnessing the"
+      - "&8&opotential of their crops, particularly in the realm"
+      - "&8&oof medicinal applications. Once a modest trading"
+      - "&8&opower, Sylvora withdrew from the global stage upon"
+      - "&8&orecognizing the exploitation of its resources by"
+      - "&8&ounscrupulous traders. Embracing solitude, it"
+      - "&8&ofostered intimate communal ties, nurturing"
+      - "&8&oresilience within its borders."
+  aerothorn:
+    display-name: "Aerothorn"
+    display-material: ORANGE_STAINED_GLASS_PANE
+    color: "E6A729"
+    lore:
+      - "&8&olore1"
+      - "&8&olore2"
+      - "&8&olore3"
+  equilonis:
+    display-name: "Equilonis"
+    display-material: BLUE_STAINED_GLASS_PANE
+    color: "244ABD"
+    lore:
+      - "&8&olore1"
+      - "&8&olore2"
+      - "&8&olore3"
+  lumatera:
+    display-name: "Lumatera"
+    display-material: PURPLE_STAINED_GLASS_PANE
+    color: "9A20D6"
+    lore:
+      - "&8&olore1"
+      - "&8&olore2"
+      - "&8&olore3"
+
+scoreboard:
+  title: '&c&lDaxel &7│ &fSMP'
+  layout:
+    - '&7&m----------------'
+    - '&c'
+    - '&7│ &fEvent: %event%'
+    - '&7│ &fBalance: &6%money%'
+    - '&b'
+    - '&7&m----------------&r'

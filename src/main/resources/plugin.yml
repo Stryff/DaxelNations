@@ -1,0 +1,32 @@
+name: DaxelNations
+version: '${project.version}'
+main: me.stryff.daxelnations.DaxelNations
+api-version: '1.21'
+load: STARTUP
+authors: [Stryff]
+description: Nations plugin for DaxelMC
+commands:
+  nations:
+    description: Show available nations GUI
+  playerinfo:
+    description: Get a player's information from the database
+  nick:
+    description: Set a nick
+  balance:
+    description: Control the balance of players
+    permission: daxel.admin
+  event:
+    description: Control events for Daxel
+    permission: daxel.admin
+  grant:
+    description: Lolz
+  grants:
+    description: grantrs
+  nbt:
+    description: nbt
+  togglechat:
+    description: Toggle your chat
+    aliases:
+      - tc
+      - togglec
+      - tchat
