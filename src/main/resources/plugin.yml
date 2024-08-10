@@ -18,10 +18,6 @@ commands:
   event:
     description: Control events for Daxel
     permission: daxel.admin
-  grant:
-    description: Lolz
-  grants:
-    description: grantrs
   nbt:
     description: nbt
   togglechat:

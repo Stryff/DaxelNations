@@ -37,7 +37,6 @@ public class NickCommand implements CommandExecutor {
             Players players = plugin.getDatabase().getPlayerByUUID(p.getUniqueId().toString());
             if (players != null) {
                 players.setUserName(args[0]);
-                NickAPI.nick(p, args[0]);
                 plugin.getDatabase().updatePlayer(players);
             }
         } catch (SQLException e) {
