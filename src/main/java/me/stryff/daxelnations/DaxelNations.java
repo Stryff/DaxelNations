@@ -5,10 +5,7 @@ import me.stryff.daxelnations.completers.BalanceCompleter;
 import me.stryff.daxelnations.completers.EventCompleter;
 import me.stryff.daxelnations.db.Database;
 import me.stryff.daxelnations.guis.NationGUI;
-import me.stryff.daxelnations.listeners.ChatListener;
-import me.stryff.daxelnations.listeners.DeathListener;
-import me.stryff.daxelnations.listeners.FirstJoinListener;
-import me.stryff.daxelnations.listeners.LuckPermsListeners;
+import me.stryff.daxelnations.listeners.*;
 import me.stryff.daxelnations.schedulers.*;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
@@ -56,6 +53,7 @@ public final class DaxelNations extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new FirstJoinListener(this, nationGUI), this);
         getServer().getPluginManager().registerEvents(new DeathListener(this), this);
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
+        getServer().getPluginManager().registerEvents(new EnterRegionListener(), this);
 
         getCommand("nations").setExecutor(new NationCommand(nationGUI, this));
         getCommand("playerinfo").setExecutor(new InfoCommand(this));
