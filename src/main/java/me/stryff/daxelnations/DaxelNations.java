@@ -53,7 +53,6 @@ public final class DaxelNations extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new FirstJoinListener(this, nationGUI), this);
         getServer().getPluginManager().registerEvents(new DeathListener(this), this);
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
-        getServer().getPluginManager().registerEvents(new EnterRegionListener(), this);
 
         getCommand("nations").setExecutor(new NationCommand(nationGUI, this));
         getCommand("playerinfo").setExecutor(new InfoCommand(this));
