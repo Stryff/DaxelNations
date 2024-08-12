@@ -46,7 +46,7 @@ public class FirstJoinListener implements Listener {
     @EventHandler
     public void onFirstJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        if (p.hasPlayedBefore()) {
+        if (!p.hasPlayedBefore()) {
             try {
                 PlayerNation playerNation = this.plugin.getDatabase().findPlayerNationByUUID(p.getUniqueId().toString());
                 if (playerNation == null) {
