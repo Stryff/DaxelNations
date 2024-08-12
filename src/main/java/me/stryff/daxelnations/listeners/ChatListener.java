@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -31,6 +32,13 @@ public class ChatListener implements Listener {
             e.setCancelled(true);
             Bukkit.broadcastMessage("lol");
             return;
+        }
+        if (p.hasPermission("daxel.staff")) {
+            if (e.getMessage().startsWith("# ")) {
+                e.setCancelled(true);
+                p.performCommand("staffchat " + e.getMessage().replace("# ", ""));
+                return;
+            }
         }
         User user = plugin.getLuckPerms().getPlayerAdapter(Player.class).getUser(p);
         boolean muted = false;
