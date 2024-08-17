@@ -34,9 +34,13 @@ public class ChatListener implements Listener {
             return;
         }
         if (p.hasPermission("daxel.staff")) {
-            if (e.getMessage().startsWith("# ")) {
+            if (e.getMessage().startsWith("#") || e.getMessage().startsWith("@")) {
                 e.setCancelled(true);
-                p.performCommand("staffchat " + e.getMessage().replace("# ", ""));
+                User user = plugin.getLuckPerms().getUserManager().getUser(p.getUniqueId());
+                String formattedMessage = ChatColor.translateAlternateColorCodes('&', e.getMessage().substring(1));
+
+                // Schedule the command to run on the main server thread
+                Bukkit.getScheduler().runTask(plugin, () -> p.performCommand("staffchat " + formattedMessage));
                 return;
             }
         }
@@ -74,11 +78,12 @@ public class ChatListener implements Listener {
             StringBuilder hoverText = new StringBuilder();
             hoverText.append(ChatColor.GRAY).append("Name: ").append(suffix).append(p.getName()).append("\n");
             hoverText.append(ChatColor.GRAY).append("Rank: ").append(suffix).append(rank).append("\n");
-            hoverText.append(ChatColor.GRAY).append("Tag: ").append(tag.isEmpty() ? "None" : tag);
-
-            String nameAndRank = prefix + suffix + p.getName();
-            String messageBeforeColon = nameAndRank + ChatColor.WHITE + ": ";
-            String messageAfterColon = chatColor == null ? e.getMessage() : ChatColor.translateAlternateColorCodes('&', chatColor) + e.getMessage();
+            hoverText.append(ChatColor.GRAY).append("Tag: ").append(tag.isEmpty() ? "None" : ChatColor.translateAlternateColorCodes('&', tag
+                    .replace(" ", "")
+                    .replace("heart", "❤")
+                    .replace("star", "✸")
+                    .replace("lightning", "⚡")
+                    .replace("cloud", "☁")));
 
             PlayerChat pC = null;
             try {
@@ -90,6 +95,18 @@ public class ChatListener implements Listener {
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
+            String nameAndRank;
+            if (pC.getTag() == null) {
+                nameAndRank = prefix + suffix + p.getName();
+            } else {
+                nameAndRank = prefix + suffix + p.getName() + ChatColor.translateAlternateColorCodes('&', pC.getTag()
+                        .replace("heart", "❤")
+                        .replace("star", "✸")
+                        .replace("lightning", "⚡")
+                        .replace("cloud", "☁"));
+            }
+            String messageBeforeColon = nameAndRank + ChatColor.WHITE + ": ";
+            String messageAfterColon = chatColor == null ? e.getMessage() : ChatColor.translateAlternateColorCodes('&', chatColor) + e.getMessage();
 
             if (!pC.getToggled()) {
                 p.sendMessage(plugin.colorCode("&cYour chat is currently toggled off. Use /togglechat to toggle it on!"));
