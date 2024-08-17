@@ -1,5 +1,7 @@
 package me.stryff.daxelnations.model;
 
+import java.sql.Struct;
+
 public class Players {
     private String uuid;
     private String userName;
@@ -10,11 +12,13 @@ public class Players {
     private long playtime;
     private String ipAddress;
     private double currencyBalance;
+    private String location;
+    private boolean flightStatus;
     private boolean bannedStatus;
     private boolean mutedStatus;
     private int warnCount;
 
-    public Players(String uuid, String userName, String displayName, String rank, String firstJoined, String lastSeen, long playtime, String ipAddress, double currencyBalance, boolean bannedStatus, boolean mutedStatus, int warnCount) {
+    public Players(String uuid, String userName, String displayName, String rank, String firstJoined, String lastSeen, long playtime, String ipAddress, double currencyBalance, String location, boolean flightStatus, boolean bannedStatus, boolean mutedStatus, int warnCount) {
         this.uuid = uuid;
         this.userName = userName;
         this.displayName = displayName;
@@ -24,6 +28,8 @@ public class Players {
         this.playtime = playtime;
         this.ipAddress = ipAddress;
         this.currencyBalance = currencyBalance;
+        this.location = location;
+        this.flightStatus = flightStatus;
         this.bannedStatus = bannedStatus;
         this.mutedStatus = mutedStatus;
         this.warnCount = warnCount;
@@ -101,6 +107,22 @@ public class Players {
         this.currencyBalance = currencyBalance;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public boolean isFlightStatus() {
+        return flightStatus;
+    }
+
+    public void setFlightStatus(boolean flightStatus) {
+        this.flightStatus = flightStatus;
+    }
+
     public boolean isBannedStatus() {
         return bannedStatus;
     }
@@ -123,6 +145,25 @@ public class Players {
 
     public void setWarnCount(int warnCount) {
         this.warnCount = warnCount;
+    }
+
+    @Override
+    public String toString() {
+        return "Players{" +
+                "uuid='" + uuid + '\'' +
+                ", user_name='" + userName + '\'' +
+                ", display_name='" + displayName + '\'' +
+                ", rank='" + rank + '\'' +
+                ", first_joined='" + firstJoined + '\'' +
+                ", last_seen=" + lastSeen +
+                ", playtime='" + playtime + '\'' +
+                ", ip_address='" + ipAddress + '\'' +
+                ", currency_balance='" + currencyBalance + '\'' +
+                ", location='" + location + '\'' +
+                ", banned_status='" + bannedStatus + '\'' +
+                ", muted_status='" + mutedStatus + '\'' +
+                ", warn_count='" + warnCount + '\'' +
+                '}';
     }
 }
 

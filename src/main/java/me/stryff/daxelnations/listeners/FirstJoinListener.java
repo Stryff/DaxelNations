@@ -5,6 +5,7 @@ import me.stryff.daxelnations.guis.NationGUI;
 import me.stryff.daxelnations.model.PlayerChat;
 import me.stryff.daxelnations.model.PlayerNation;
 import me.stryff.daxelnations.model.Players;
+import me.stryff.daxelnations.schedulers.PlaytimeScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Minecart;
@@ -21,9 +22,12 @@ import java.util.Date;
 public class FirstJoinListener implements Listener {
     private final DaxelNations plugin;
     private final NationGUI gui;
-    public FirstJoinListener(DaxelNations plugin, NationGUI gui) {
+    private final PlaytimeScheduler playtimeScheduler;
+
+    public FirstJoinListener(DaxelNations plugin, NationGUI gui, PlaytimeScheduler playtimeScheduler) {
         this.plugin = plugin;
         this.gui = gui;
+        this.playtimeScheduler = playtimeScheduler;
     }
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
@@ -42,6 +46,7 @@ public class FirstJoinListener implements Listener {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        playtimeScheduler.stopTracking(p);
     }
     @EventHandler
     public void onFirstJoin(PlayerJoinEvent e) {
@@ -76,6 +81,8 @@ public class FirstJoinListener implements Listener {
                         0,
                         address,
                         0.0,
+                        null,
+                        false,
                         false,
                         false,
                         0
@@ -96,6 +103,7 @@ public class FirstJoinListener implements Listener {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        playtimeScheduler.startTracking(p);
     }
 
 }

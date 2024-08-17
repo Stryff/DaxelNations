@@ -124,7 +124,7 @@ public class Database {
 
     public void createPlayer(Players players) throws SQLException {
         PreparedStatement statement = getConnection()
-                .prepareStatement("INSERT INTO players(uuid, user_name, display_name, rank, first_joined, last_seen, playtime, ip_address, currency_balance, banned_status, muted_status, warn_count) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                .prepareStatement("INSERT INTO players(uuid, user_name, display_name, rank, first_joined, last_seen, playtime, ip_address, currency_balance, location, flight_status, banned_status, muted_status, warn_count) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         statement.setString(1, players.getUuid());
         statement.setString(2, players.getUserName());
         statement.setString(3, players.getDisplayName());
@@ -134,16 +134,18 @@ public class Database {
         statement.setLong(7, players.getPlaytime());
         statement.setString(8, players.getIpAddress());
         statement.setDouble(9, players.getCurrencyBalance());
-        statement.setBoolean(10, players.isBannedStatus());
-        statement.setBoolean(11, players.isMutedStatus());
-        statement.setInt(12, players.getWarnCount());
+        statement.setString(10, players.getLocation());
+        statement.setBoolean(11, players.isFlightStatus());
+        statement.setBoolean(12, players.isBannedStatus());
+        statement.setBoolean(13, players.isMutedStatus());
+        statement.setInt(14, players.getWarnCount());
         statement.executeUpdate();
         statement.close();
     }
 
     public void updatePlayer(Players players) throws SQLException {
         PreparedStatement statement = getConnection()
-                .prepareStatement("UPDATE players SET user_name = ?, display_name = ?, rank = ?, first_joined = ?, last_seen = ?, playtime = ?, ip_address = ?, currency_balance = ?, banned_status = ?, muted_status = ?, warn_count = ? WHERE uuid = ?");
+                .prepareStatement("UPDATE players SET user_name = ?, display_name = ?, rank = ?, first_joined = ?, last_seen = ?, playtime = ?, ip_address = ?, currency_balance = ?, location = ?, flight_status = ?, banned_status = ?, muted_status = ?, warn_count = ? WHERE uuid = ?");
         statement.setString(1, players.getUserName());
         statement.setString(2, players.getDisplayName());
         statement.setString(3, players.getRank());
@@ -152,13 +154,23 @@ public class Database {
         statement.setLong(6, players.getPlaytime());
         statement.setString(7, players.getIpAddress());
         statement.setDouble(8, players.getCurrencyBalance());
-        statement.setBoolean(9, players.isBannedStatus());
-        statement.setBoolean(10, players.isMutedStatus());
-        statement.setInt(11, players.getWarnCount());
-        statement.setString(12, players.getUuid());
-        statement.executeUpdate();
+        statement.setString(9, players.getLocation());
+        statement.setBoolean(10, players.isFlightStatus());
+        statement.setBoolean(11, players.isBannedStatus());
+        statement.setBoolean(12, players.isMutedStatus());
+        statement.setInt(13, players.getWarnCount());
+        statement.setString(14, players.getUuid());
+
+        int rowsAffected = statement.executeUpdate();
         statement.close();
+
+        if (rowsAffected == 0) {
+            System.out.println("No rows updated for player: " + players.getUuid());
+        } else {
+            System.out.println("Player updated: " + players.getUuid());
+        }
     }
+
 
     public void createPlayerChat(PlayerChat playerChat) throws SQLException {
         PreparedStatement statement = getConnection()
@@ -206,6 +218,8 @@ public class Database {
                         resultSet.getLong("playtime"),
                         resultSet.getString("ip_address"),
                         resultSet.getDouble("currency_balance"),
+                        resultSet.getString("location"),
+                        resultSet.getBoolean("flight_status"),
                         resultSet.getBoolean("banned_status"),
                         resultSet.getBoolean("muted_status"),
                         resultSet.getInt("warn_count")
@@ -230,6 +244,7 @@ public class Database {
 
         return player;
     }
+
 
     public void logGrants(String playerUUID, String adminUUID, String oldRank, String newRank, Timestamp timestamp, String reason, String duration, String status) throws SQLException {
         PreparedStatement statement = getConnection().prepareStatement(

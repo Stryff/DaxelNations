@@ -35,7 +35,7 @@ public final class DaxelNations extends JavaPlugin {
     public String activeEvent;
     public String eventInfo1;
     public String eventInfo2;
-    private BukkitTask grantUpdaterTask;
+    private PlaytimeScheduler playtimeScheduler;
 
     @Override
     public void onEnable() {
@@ -49,10 +49,12 @@ public final class DaxelNations extends JavaPlugin {
         this.wildWest = new WildWestEvent(this);
         this.invasion = new NationInvasion(this, database);
         this.nationGUI = new NationGUI(this, database);
+        this.playtimeScheduler = new PlaytimeScheduler(this, database);
 
-        getServer().getPluginManager().registerEvents(new FirstJoinListener(this, nationGUI), this);
+        getServer().getPluginManager().registerEvents(new FirstJoinListener(this, nationGUI, playtimeScheduler), this);
         getServer().getPluginManager().registerEvents(new DeathListener(this), this);
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
+        getServer().getPluginManager().registerEvents(new RegionListener(this), this);
 
         getCommand("nations").setExecutor(new NationCommand(nationGUI, this));
         getCommand("playerinfo").setExecutor(new InfoCommand(this));
@@ -63,8 +65,6 @@ public final class DaxelNations extends JavaPlugin {
         getCommand("event").setTabCompleter(new EventCompleter());
         getCommand("nbt").setExecutor(new NbtCommand());
         getCommand("togglechat").setExecutor(new ToggleChatCommand(this));
-
-        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "[DaxelNations] LOOOOOOOOL!");
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
@@ -86,14 +86,6 @@ public final class DaxelNations extends JavaPlugin {
             scoreboardUpdater.start();
         });
         new PlaytimeScheduler(this, database);
-    }
-
-    @Override
-    public void onDisable() {
-        getDatabase().closeConnection();
-        if (grantUpdaterTask != null) {
-            grantUpdaterTask.cancel();
-        }
     }
 
     public Database getDatabase() {
@@ -121,7 +113,7 @@ public final class DaxelNations extends JavaPlugin {
     public Location getPvPCorner2() {
         return corner2;
     }
-    public String colorCode(String input) {
+    public static String colorCode(String input) {
         return ChatColor.translateAlternateColorCodes('&', input);
     }
 }

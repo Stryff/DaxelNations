@@ -47,7 +47,7 @@ public class ScoreboardUpdater extends BukkitRunnable {
         try {
             player = plugin.getDatabase().getPlayerByUUID(p.getUniqueId().toString());
             if (player == null) {
-                player = new Players(null, null, null, null, null, null, 0, null, 0, false, false, 0);
+                player = new Players(null, null, null, null, null, null, 0, null, 0, null, false, false, false, 0);
             }
         } catch (SQLException e) {
             e.printStackTrace();
